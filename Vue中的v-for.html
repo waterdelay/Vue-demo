@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <!-- 循环数组进行渲染是Vue中最基本的起步  -->
+    <div id="app">
+        <div class="table-responsive ">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+                </div>
+                <div class="panel-body form-inline">
+                    <label>
+                        Id:
+                        <input type="text" class="form-control">
+                    </label>
+
+                    <label>
+                        Name:
+                        <input type="text" class="form-control">
+                    </label>
+
+                    <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+                    <input type="button" value="添加" class="btn btn-primary">
+
+                    <label>
+                        搜索名称关键字：
+                        <!-- 注意： Vue中所有的指令，在调用的时候，都以 v- 开头 -->
+                        <input type="text" class="form-control" id="search">
+                    </label>
+                </div>
+            </div>
+
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                   
+                    <tr>
+                        <th>ID</th>
+                        <th>车型</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                     <!-- 我们用v-for来循环数组  等到数据并且渲染 -->
+                    <tr class="success" v-for="item in list" >
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.ctime }}</td>
+                        <td> <a href="javascript:;">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 开始运用vue框架 -->
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    { id: 1, name: "奔驰", ctime: new Date().toString() },
+                    { id: 2, name: "宝马", ctime: new Date().toString() },
+                    { id: 3, name: "奥迪", ctime: new Date().toString() },
+                    { id: 4, name: "玛莎拉蒂", ctime: new Date().toString() },
+                    { id: 5, name: "法拉利", ctime: new Date().toString() },
+                    { id: 6, name: "海马", ctime: new Date().toString() }
+                ],
+            }
+        })
+    </script>
+</body>
+
+</html>

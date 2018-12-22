@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <!-- 循环数组进行渲染是Vue中最基本的起步  -->
+    <div id="app">
+        <div class="table-responsive ">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+                </div>
+                <div class="panel-body form-inline">
+                    <label>
+                        Id:
+                        <input type="text" class="form-control" v-model="id">
+                    </label>
+
+                    <label>
+                        Name:
+                        <!--v-model是双向绑定    平时我们使用的v-bind=""是单向绑定  -->
+                        <input type="text" class="form-control" v-model="name" @keyup.enter="add">
+                    </label>
+
+                    <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+                    <input type="button" value="添加" class="btn btn-primary" @click="add">
+
+                    <label>
+                        搜索名称关键字：
+                        <!-- 注意： Vue中所有的指令，在调用的时候，都以 v- 开头 -->
+                        <input type="text" class="form-control" id="search" v-model="keywords">
+                    </label>
+                </div>
+            </div>
+
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>车型</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    <!-- 我们用v-for来循环数组  等到数据并且渲染 -->
+                    <tr class="success" v-for="item in list">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.ctime | formatTime("") }}</td>
+                        <td> <a href="javascript:;">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 开始运用vue框架 -->
+    <script>
+        // 添加一个按键修饰
+
+        Vue.config.keyCodes.f2 = 113
+        //添加一个全局的过滤 过滤掉时间
+        Vue.filter('formatTime', function (value,patten) {
+            let dt = new Date(value)
+            //设置时间YYYY-MM-DD HH:mmss
+            //(dt.getUTCFullYear()).toString(). padStart(2,"0") 
+            //先转换成字符串  在在用padStart(2,"0")方法进行补零操作 一个2位 补'0'
+            //
+            let Y = (dt.getUTCFullYear()).toString().padStart(2, "0") //年
+            let M = (dt.getMonth() + 1).toString().padStart(2, "0")     //月
+            let D = (dt.getDate()).toString().padStart(2, "0")        //日
+            if (patten.toLowerCase() === "yyyy-mm-dd") {
+                return `${Y}-${M}-${D}`
+            } else {
+                let h = (dt.getHours()).toString().padStart(2, "0")
+                let m = (dt.getMinutes()).toString().padStart(2, "0")
+                let s = (dt.getSeconds()).toString().padStart(2, "0")
+                return `${Y}-${M}-${D}  ${h}:${m}:${s}`
+            }
+        })
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                id: "",
+                name: "",
+
+                list: [
+                    { id: 1, name: "奔驰", ctime: new Date().toString() },
+                    { id: 2, name: "宝马", ctime: new Date().toString() },
+                    { id: 3, name: "奥迪", ctime: new Date().toString() },
+                    { id: 4, name: "玛莎拉蒂", ctime: new Date().toString() },
+                    { id: 5, name: "法拉利", ctime: new Date().toString() },
+                    { id: 6, name: "海马", ctime: new Date().toString() }
+                ],
+                keywords: "",
+            },
+            methods: {
+                add() {
+                    console.log(111)
+                    let car = { id: this.id, name: this.name, ctime: new Date().toString() }
+                    this.list.push(car)
+                    this.id = this.name = ""
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
