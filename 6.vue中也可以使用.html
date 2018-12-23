@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="./lib/animate.css">
+    <style>
+        .briod-enter-active{
+            animation: briod-in .5s
+        }
+        .briod-leave-active{
+            animation: briod-in .5s reverse
+        }
+        @keyframes briod-in{
+            0%{
+                transform: scale(0);
+            }
+            50%{
+                transform: scale(1.5)
+            }
+            100%{
+                transform: scale(1)
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+        <transition name="briod">
+            <!-- 也可以结合c3中的动画定义来完成  @keyframes 动画名{}-->
+            <p v-if="flag">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at
+                lacinia diam
+                fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+        </transition>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>
