@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="./lib/animate.css">
+    <style>
+        .radio{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 半场动画 -->
+    <div id="app">
+        <input type="button" value="点击" @click="flag=!flag">
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @enter-cancelled="enterCancelled">
+            <div class="radio" v-show="flag"></div>
+        </transition>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                flag:false
+            },
+            methods: {
+                beforeEnter(el) {
+                    el.style.transform="translate(0,0)"
+                },
+                enter(el,done) {
+                    // 这里必须加el.offsetWidth  不然没有过度的效果   想当于添加过度的效果
+                    el.offsetWidth
+                    el.style.transform="translate(150px,500px)"
+                    el.style.transition="all 2s ease"
+                    done()
+                },
+                afterEnter(el) {
+                    this.flag=!this.flag
+                },
+                enterCancelled(el) {
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -62,7 +62,9 @@
     </div>
     <!-- 开始运用vue框架 -->
     <script>
-
+        //设置提炼相同的ip地址
+        Vue.http.options.root="http://litc.pro:8888"
+        Vue.http.options.emulateJSON=true
         Vue.directive("focus",{
             inserted(el){
                 el.focus()
@@ -114,7 +116,7 @@
             methods: {
              
                 viewList(){
-                    this.$http.get("http://litc.pro:8888/api/getprodlist",{responseType:"json"}).then((result)=>{
+                    this.$http.get("api/getprodlist",{responseType:"json"}).then((result)=>{
                         console.log(result.body)
                         if(result.body.status===0){
                             this.name=""
@@ -123,7 +125,18 @@
                     })
                 },
                 addList() {
-                  this.$http.post("http://litc.pro:8888/api/addproduct",{name:this.name},{emulateJSON:true}).then((result)=>{
+                //   this.$http.post("api/addproduct",{name:this.name},{emulateJSON:true}).then((result)=>{
+                //       console.log(result.body)
+                //     if(result.body.status===0){
+                //         this.viewList()
+                //     }else{
+                //         alert("添加失败")
+                //     }
+
+                //       //正常这一步 获取更新后的数据   然后我们会得到一个新的数据库详情列表  在直接调用viewList()方法  进行重新渲染
+                //       this.viewList()
+                //   })
+                  this.$http.post("api/addproduct",{name:this.name}).then((result)=>{
                       console.log(result.body)
                     if(result.body.status===0){
                         this.viewList()
@@ -135,8 +148,9 @@
                       this.viewList()
                   })
                 },
+                
                 delList(id){    
-                    this.$http.get("http://litc.pro:8888/api/delproduct/"+id, {params: {id: this.id}}).then((result)=>{
+                    this.$http.get("api/delproduct/"+id, {params: {id: this.id}}).then((result)=>{
                         console.log(result.body)
                         if(result.body.status===0){
                             this.viewList()
