@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    
+    <div id="app">
+        <input  @click="msg='父组件的数据已经被修改'" type="button" value="点击修改父组件中的数据">
+        <mytemp :parentmsg="msg" @show="show"></mytemp>
+    </div>
+    <template id="temp1">
+        <div>
+            <h1 @change="">我是子组件的数据-----{{ parentmsg.content}}</h1>
+        </div>
+    </template>
+    <script>
+        Vue.component("mytemp", {
+            template:"#temp1",
+            data() {
+                return {
+                    title:"啊啊啊",
+                }
+            },
+            methods: {
+                // change(){
+                //     this.$emit("show","我尝试着改变数据")
+                // }
+            },
+            props:["parentmsg"]
+        })
+
+
+
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                msg:{content:"我是父组件里面的数据"},
+                sonMsg: ""
+            },
+            methods: {
+                show(data){
+                    this.sonMsg=data
+                }   
+            }
+        })
+    </script>
+</body>
+
+</html>
