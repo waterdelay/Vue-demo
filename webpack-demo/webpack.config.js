@@ -6,6 +6,8 @@ const webpack = require("webpack")
 
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 module.exports = {
     entry: {
         path: path.join(__dirname, "main.js")
@@ -29,9 +31,16 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',// 如果不指定template, 默认生成一个空的HTML5页面, 指定template表示从哪个HTML文件编译一个新的HTML出来
             filename: 'index.html',// 默认值就是index.html, 便于开发人员自己查看
-        })
+        }),
+        new VueLoaderPlugin({}),
 
     ],
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.js'
+        }
+    },
+
     module: {
         rules: [//匹配规则
 
@@ -43,7 +52,8 @@ module.exports = {
             { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
 
 
-            { test:/\.(png|jpg|gif|jpeg|bmp)$/,use:['url-loader?limit=10240&name=[hash:8]-[name].[ext]']
+            {
+                test: /\.(png|jpg|gif|jpeg|bmp)$/, use: ['url-loader?limit=10240&name=[hash:8]-[name].[ext]']
                 // use:[
                 //     {
                 //         loader:'url-loader',
@@ -53,6 +63,8 @@ module.exports = {
                 //     }
                 // ]
             },
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+            { test: /\.vue$/, use: 'vue-loader' },
         ]
     },
 }
